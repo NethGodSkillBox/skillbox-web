@@ -1,0 +1,26 @@
+﻿@model HtmlTemplate
+@{
+    ViewBag.Title = "Index";
+    Layout = "/Views/Shared/_LayoutGuest.cshtml";
+}
+
+<section class="mb-4 container">
+
+    <h2 class="h1-responsive font-weight-bold text-center my-4">Связь с нами</h2>
+    <p class="text-center w-responsive mx-auto mb-5">
+        У вас есть вопросы? Пожалуйста, не стесняйтесь обращаться к нам напрямую!
+    </p>
+
+    <div class="row">
+        <div class="col text-center">
+            <ul class="list-unstyled mb-0">
+                @foreach (HtmlTemplate item in ViewBag.Contacts)
+                {
+                    <li>
+                        <p>@item.Text</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>

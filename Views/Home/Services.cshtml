@@ -1,0 +1,32 @@
+﻿@model HtmlTemplate
+@{
+    int i = 1;
+}
+<div id="accordion" role="tablist" aria-multiselectable="true">
+    @foreach (HtmlTemplate item in ViewBag.Services)
+    {
+        i += 1;
+        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample-@i" aria-expanded="false" aria-controls="collapseExample-@i">
+                @item.Title
+            </button>
+        </p>
+        <div style="margin-bottom:10px" class="collapse" id="collapseExample-@i">
+            <div class="card card-block">
+                <form asp-controller="Requestions" asp-action="UpdateHtml" asp-route-url="@Context.Request.Path" method="post">
+                    <input type="hidden" name="Id" value="@item.Id" />
+                    <input type="hidden" name="Type" value="@item.Type" />
+                    <input type="hidden" name="Info" value="@item.Info" />
+                    <input type="hidden" name="Time" value="@DateTime.Now" />
+                    <input id="imgHidden" type="hidden" name="Img" value="@item.Img" />
+
+                    <input type="text" class="form-control" id="exampleFormControlInput1" value="@item.Title" name="Title" style="margin-left:10px; margin-top:5px">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" style="margin:10px; height:250px" name="Text">@item.Text</textarea>
+                    <button type="submit" class="btn btn-primary" style="width:180px; height:40px; margin:10px;">Сохранить</button>
+                     <a asp-controller="Requestions" asp-action="RemoveHtml" asp-route-id="@item.Id" asp-route-url="@Context.Request.Path" class="btn btn-primary">Удалить</a>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+<a class="btn btn-success" asp-controller="Home" asp-action="EditBlog" asp-route-type="service" asp-route-url="@Context.Request.Path" style="margin:30px 0 0 0">Добавить услугу</a>

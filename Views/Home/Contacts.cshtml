@@ -1,0 +1,31 @@
+﻿@model HtmlTemplate
+
+<section class="mb-4">
+
+    <h2 class="h1-responsive font-weight-bold text-center my-4">Связь с нами</h2>
+    <p class="text-center w-responsive mx-auto mb-5">
+        У вас есть вопросы? Пожалуйста, не стесняйтесь обращаться к нам напрямую!
+    </p>
+
+    <div class="row">
+        <div class="col text-center">
+            <ul class="list-unstyled mb-0">
+                @foreach (HtmlTemplate item in ViewBag.Contacts)
+                {
+                    <form asp-controller="Requestions" asp-action="UpdateHtml" asp-route-url="@Context.Request.Path" method="post">
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="hidden" name="Type" value="@item.Type" />
+                        <input type="hidden" name="Info" value="@item.Info" />
+                        <input type="hidden" name="Time" value="@DateTime.Now" />
+                        <input type="hidden" name="Title" value="@item.Title" />
+                        <input id="imgHidden" type="hidden" name="Img" value="@item.Img" />
+                    <li>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" style="margin:10px; height:40px" name="Text">@item.Text</textarea>
+                        <button type="submit" class="btn btn-primary" style="width:180px; height:40px; margin:10px;">Сохранить</button>
+                    </li>
+                    </form>
+                }
+            </ul>
+        </div>
+    </div>
+</section>

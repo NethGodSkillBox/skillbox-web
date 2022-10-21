@@ -1,0 +1,10 @@
+﻿@{
+    HtmlTemplate item = ViewBag.Item;
+    Layout = "/Views/Shared/_LayoutGuest.cshtml";
+}
+<div class="container" style="margin-top:20px">
+    <div class="d-flex justify-content-center">
+        <img src="@item.Img" alt="image" class="img-thumbnail" style="max-width:450px; max-height:250px; margin-bottom:10px">
+    </div>
+    <p style="margin:10px">@item.Info</p>
+</div>

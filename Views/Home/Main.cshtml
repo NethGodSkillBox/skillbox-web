@@ -1,0 +1,29 @@
+﻿@using System.IO
+@{
+    ViewData["Title"] = "Главная";
+    var categoriesList = System.IO.File.ReadAllLines($"{HostingEnvironment.WebRootPath}/Categories.txt");
+}
+<div class="col-12">
+    <h2 class="mb-3 text-primary">Редактирование названий в меню</h2>
+</div>
+<form style="margin: 20px 0 0 0" action="~/Main/GetDataFromView" method="post">
+    <div class="form-group row">
+        <input type="text" class="form-control" id="exampleFormControlInput1" value="@categoriesList[0]" name="categories" style="width:250px; margin-left: 20px">
+    </div>
+    <div class="form-group row">
+        <input type="text" class="form-control" id="exampleFormControlInput1" value="@categoriesList[1]" name="categories" style="width:250px; margin-left: 20px">
+    </div>
+    <div class="form-group row">
+        <input type="text" class="form-control" id="exampleFormControlInput1" value="@categoriesList[2]" name="categories" style="width:250px; margin-left: 20px">
+    </div>
+    <div class="form-group row">
+        <input type="text" class="form-control" id="exampleFormControlInput1" value="@categoriesList[3]" name="categories" style="width:250px; margin-left: 20px">
+    </div>
+    <div class="form-group row">
+        <input type="text" class="form-control" id="exampleFormControlInput1" value="@categoriesList[4]" name="categories" style="width:250px; margin-left: 20px">
+    </div>
+    <div class="form-group row">
+        <input type="text" class="form-control" id="exampleFormControlInput1" value="@categoriesList[5]" name="categories" style="width:250px; margin-left: 20px">
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin:10px" asp-controller="Home" asp-action="SaveCategories">Сохранить</button>
+</form>

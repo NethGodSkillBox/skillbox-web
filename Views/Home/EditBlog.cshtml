@@ -1,0 +1,59 @@
+﻿@model HtmlTemplate
+@{
+    HtmlTemplate item = ViewBag.Item;
+}
+<div class="container">
+    <form asp-controller="Requestions" asp-action="UpdateHtml" asp-route-url="@ViewBag.Url" method="post">
+        @if (item.Id != 0)
+        {
+            <input type="hidden" name="Id" value="@item.Id" />
+        }
+        <input type="hidden" name="Type" value="@item.Type" />
+        <input type="hidden" name="Time" value="@DateTime.Now" />
+        <input id="imgHidden" type="hidden" name="Img" value="@item.Img" />
+        <div class="form-group row">
+            <label for="exampleFormControlInput1">Заголовок: </label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" value="@item.Title" name="Title">
+        </div>
+        <div class="row">
+
+            <div class="form-group" style="width:450px">
+                <label for="exampleFormControlTextarea1">Описание: </label>
+                <textarea class="form-control" style="height:250px" name="Text">@item.Text</textarea>
+            </div>
+
+            @if (item.Type != "service")
+            {
+                <div class="form-group" style="width:450px">
+                    <label for="exampleFormControlTextarea1">Информация: </label>
+                    <textarea class="form-control" style="height:250px; margin-left:10px" name="Info">@item.Info</textarea>
+                </div>
+
+                <img id="imgPage" src="@item.Img" alt="image" class="img-thumbnail" style="max-width:450px; min-width:250px; margin-bottom:10px">
+            }
+        </div>
+
+        @if (item.Type != "service")
+        {
+            <div class="form-group row">
+                <label for="exampleFormControlFile1" style="margin-right:10px">Выберите изображение: </label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1" onchange="encodeImageFileAsURL(this)">
+            </div>
+        }
+        <div class="row">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function encodeImageFileAsURL(element) {
+        var file = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            document.getElementById("imgHidden").value = reader.result;
+            document.getElementById("imgPage").src = reader.result;
+        }
+        reader.readAsDataURL(file);
+    }
+</script>

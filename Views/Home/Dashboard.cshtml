@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = "CRM";
+    List<Req> list = ViewBag.list;
+    list.Sort((x, y) => DateTime.Compare( y.Time, x.Time));
+    var allReqs = list.Count();
+    var inWork = list.Where(x => x.Status == "В работе").Count();
+    var reject = list.Where(x => x.Status == "Отклонена").Count();
+    var cancel = list.Where(x => x.Status == "Отменена").Count();
+    var get = list.Where(x => x.Status == "Получена").Count();
+    var success = list.Where(x => x.Status == "Выполнена").Count();
+}
+
+<head>
+    <script src="~/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+    <script src="~/js/myJs.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container" style="margin-bottom:15px">
+        <div class="row">
+            <div class="col-sm">
+                <table class="table table-danger table-striped">
+                    <tbody>
+                        <tr>
+                            <td style="margin-right:20px">Всего заявок   </td>
+                            <td>@allReqs</td>
+                        </tr>
+                        <tr>
+                            <td style="margin-right:20px">В работе</td>
+                            <td>@inWork (@System.Math.Round((int) inWork / (allReqs / 100M))%)</td>
+                        </tr>
+
+                        <tr>
+                            <td style="margin-right:20px">Отклонено</td>
+                            <td>@reject (@System.Math.Round((int) reject / (allReqs / 100M))%)</td>
+                        </tr>
+
+                        <tr>
+                            <td style="margin-right:20px">Отменено</td>
+                            <td>@cancel (@System.Math.Round((int) cancel / (allReqs / 100M))%)</td>
+                        </tr>
+
+                        <tr>
+                            <td style="margin-right:20px">Получено</td>
+                            <td>@get (@System.Math.Round((int) get / (allReqs / 100M))%)</td>
+                        </tr>
+
+                        <tr>
+                            <td style="margin-right:20px">Выполнено</td>
+                            <td>@success (@System.Math.Round((int) success / (allReqs / 100M))%)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm">
+                <table class="table table-secondary table-striped">
+                    <tr>
+                        <td >Всего заявок за выбранный период</td>
+                        <td id="allLabel">@list.Count()</td>
+                    </tr>
+                    <tr>
+                        <td>В работе</td>
+                        <td id="inWorkLabel">@list.Where(x => x.Status == "В работе").Count()</td>
+                    </tr>
+                    <tr>
+                        <td>Отклонено</td>
+                        <td id="rejLabel">@list.Where(x => x.Status == "Отклонена").Count()</td>
+                    </tr>
+                    <tr>
+                        <td>Отменено</td>
+                        <td id="cancelLabel">@list.Where(x => x.Status == "Отменена").Count()</td>
+                    </tr>
+                    <tr>
+                        <td>Получено</td>
+                        <td id="getLabel">@list.Where(x => x.Status == "Получена").Count()</td>
+                    </tr>
+                    <tr>
+                        <td>Выполнено</td>
+                        <td id="successLabel">@list.Where(x => x.Status == "Выполнена").Count()</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    @*График*@
+
+    <div class="container-fluid">
+        <div class="col-md-3 dropdown" style="display:inline">
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                Статус заявки
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <button class="dropdown-item myClass" type="button" onclick="myFunction('Все')">Все</button>
+                <button class="dropdown-item myClass" type="button" onclick="myFunction('Получена')">Получена</button>
+                <button class="dropdown-item myClass" type="button" onclick="myFunction('В работе')">В работе</button>
+                <button class="dropdown-item myClass" type="button" onclick="myFunction('Выполнена')">Выполнена</button>
+                <li class="divider"></li>
+                <button class="dropdown-item myClass" type="button" onclick="myFunction('Отклонена')">Отклонена</button>
+                <li class="divider"></li>
+                <button class="dropdown-item myClass" type="button" onclick="myFunction('Отменена')">Отменена</button>
+            </ul>
+        </div>
+        <a style="margin:0 0 0 10px" onclick="myFunction2('Сегодня')" href="#">Сегодня</a>
+        <a style="margin:0 0 0 10px" onclick="myFunction2('Вчера')" href="#">Вчера</a>
+        <a style="margin:0 0 0 10px" onclick="myFunction2('Неделя')" href="#">Неделя</a>
+        <a style="margin:0 0 0 10px" onclick="myFunction2('Месяц')" href="#">Текущий Месяц</a>
+        <label for="inputDate" style="margin:0 0 0 50px">Введите дату:</label>
+        <input id="picker1" onchange="myFunction2('')" type="date" class="form-control" style="width:auto; display:inline">
+        <input id="picker2" onchange="myFunction2('')" type="date" class="form-control" style="width:auto; display:inline">
+    </div>
+
+    </br>
+
+
+    <div class="card strpied-tabled-with-hover">
+        <div class="card-header ">
+            <h4 class="card-title">Входящие заявки</h4>
+        </div>
+        <div class="card-body table-full-width table-responsive">
+            <table class="table" id="infoTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th style="width:50px">ID</th>
+                        <th>Email</th>
+                        <th>Имя</th>
+                        <th>Текст</th>
+                        <th>Время</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (Req req in ViewBag.list)
+                    {
+                        <tr>
+                            <form asp-controller="Requestions" asp-action="EditReq" method="post">
+                                <input type="hidden" readonly class="form-control-plaintext" id="statusInput" name="Status" value="@req.Status">
+                            <td><input type="text" readonly class="form-control-plaintext" name="Id" value="@req.Id" style="width:50px"></td>
+                            <td><input type="text" readonly class="form-control-plaintext" name="Email" value="@req.Email"></td>
+                            <td><input type="text" readonly class="form-control-plaintext" name="Name" value="@req.Name"></td>
+                            <td><input type="text" readonly class="form-control-plaintext" name="Text" value="@req.Text"></td>
+                            <td><input type="text" readonly class="form-control-plaintext" name="Time" value="@req.Time.ToString("yyyy-MM-dd HH:mm:ss")"></td>
+                            <td>
+                                <div class="btn-group">
+                                    <button style="margin-bottom:5px" id="statusBtn" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @req.Status
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" onclick="changeStatus(this, 'Получена')">Получена</a>
+                                        <a class="dropdown-item" onclick="changeStatus(this, 'В работе')">В работе</a>
+                                        <a class="dropdown-item" onclick="changeStatus(this, 'Выполнена')">Выполнена</a>
+                                        <a class="dropdown-item" onclick="changeStatus(this, 'Отклонена')">Отклонена</a>
+                                        <a class="dropdown-item" onclick="changeStatus(this, 'Отменена')">Отменена</a>
+                                    </div>
+                                </div>
+                                <button style="margin-bottom:5px" type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+                            </td>
+                            </form>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div> @*Таблица*@
+</body>
+
+
+
+
+<script type="text/javascript">
+
+    let globalTime1 = new Date('2010-10-10');
+    let globalTime2 = new Date('2022-12-31');
+    globalTime1.setHours(0, 0, 0, 0);
+    globalTime2.setHours(0, 0, 0, 0);
+
+    $(document).ready(function() {
+
+        var table = document.getElementById("infoTable");
+        var tr = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            tr[i].style.display = "none";
+        }
+    });
+</script>

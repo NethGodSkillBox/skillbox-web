@@ -1,0 +1,41 @@
+﻿@model HtmlTemplate
+@{
+    var list = ViewBag.Projects;
+    int i = 0;
+}
+
+<style type="text/css">
+    @@media only screen and (min-width: 960px) {
+        .card{
+            max-width:30%;
+        }
+    }
+</style>
+
+
+<div class="col-12">
+    <h2 class="mb-3 text-primary">Проекты</h2>
+</div>
+
+<div class="card-deck">
+
+    @foreach (HtmlTemplate project in list)
+    {
+        i += 1;
+        <div class="card" style="margin-bottom:10px">
+            <img class="card-img-top" src="@project.Img" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@project.Title</h5>
+                <p class="card-text">@project.Text</p>
+                <a class="btn btn-primary" asp-controller="Home" asp-action="EditBlog" asp-route-id="@project.Id" asp-route-url="@Context.Request.Path">Редактировать</a>
+                <a class="btn btn-primary" asp-controller="Requestions" asp-action="RemoveHtml" asp-route-id="@project.Id" asp-route-url="@Context.Request.Path">Удалить</a>
+            </div>
+        </div>
+        if (i % 3 == 0)
+        {
+            <div class="w-100"></div>
+        }
+    }
+</div>
+
+<a class="btn btn-success" asp-controller="Home" asp-action="EditBlog" asp-route-type="project" asp-route-url="@Context.Request.Path">Добавить проект</a>

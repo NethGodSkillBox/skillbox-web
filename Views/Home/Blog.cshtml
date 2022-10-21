@@ -1,0 +1,42 @@
+﻿@model HtmlTemplate
+
+@{
+    int i = 0;
+}
+
+<style type="text/css">
+    @@media only screen and (min-width: 960px) {
+        .card{
+            max-width:30%;
+        }
+    }
+</style>
+
+<div class="col-12">
+    <h2 class="mb-3 text-primary">Блог</h2>
+</div>
+
+<div class="card-deck">
+    @foreach (HtmlTemplate item in ViewBag.Blogs)
+    {
+        i += 1;
+        <div class="card" style="margin-bottom:10px">
+            <img class="card-img-top" src="@item.Img" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@item.Title</h5>
+                <p class="card-text">@item.Text</p>
+                <a class="btn btn-primary" asp-controller="Home" asp-action="EditBlog" asp-route-id="@item.Id" asp-route-url="@Context.Request.Path">Редактировать</a>
+                <a asp-controller="Requestions" asp-action="RemoveHtml" asp-route-id="@item.Id" asp-route-url="@Context.Request.Path" class="btn btn-primary">Удалить</a>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Последнее обновление @item.Time.ToString("dd-MM-yyyy")</small>
+            </div>
+        </div>
+        if (i % 3 == 0)
+        {
+            <div class="w-100"></div>
+        }
+    }
+</div>
+
+<a class="btn btn-success" asp-controller="Home" asp-action="EditBlog" asp-route-type="blog" asp-route-url="@Context.Request.Path">Добавить запись</a>
