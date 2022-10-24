@@ -7,8 +7,8 @@
 
 <style type="text/css">
     @@media only screen and (min-width: 960px) {
-        .card{
-            max-width:30%;
+        .card {
+            max-width: 30%;
         }
     }
 </style>
@@ -19,20 +19,25 @@
     </div>
 
     <div class="card-deck">
-        @foreach (HtmlTemplate project in ViewBag.Projects)
-        {
-            i += 1;
-            <div class="card" style="margin-bottom:10px">
-                <img class="card-img-top" src="@project.Img" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@project.Title</h5>
-                    <p class="card-text">@project.Text</p>
-                    <a class="btn btn-dark" asp-controller="Home" asp-action="MoreInfo" asp-route-id="@project.Id">Подробнее</a>
-                </div>
-            </div>
-            if (i % 3 == 0)
+        @{
+            if (ViewBag.Projects != null)
             {
-                <div class="w-100"></div>
+                foreach (HtmlTemplate project in ViewBag.Projects)
+                {
+                    i += 1;
+                    <div class="card" style="margin-bottom:10px">
+                        <img class="card-img-top" src="@project.Img" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@project.Title</h5>
+                            <p class="card-text">@project.Text</p>
+                            <a class="btn btn-dark" asp-controller="Home" asp-action="MoreInfo" asp-route-id="@project.Id">Подробнее</a>
+                        </div>
+                    </div>
+                    if (i % 3 == 0)
+                    {
+                        <div class="w-100"></div>
+                    }
+                }
             }
         }
     </div>

@@ -227,36 +227,52 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult ProjectsGuest()
         {
-            var allItems = reqData.GetHtml().Result;
-            var list = allItems.Where(x => x.Type == "project");
-            ViewBag.Projects = list;
+            try
+            {
+                var allItems = reqData.GetHtml().Result;
+                var list = allItems.Where(x => x.Type == "project");
+                ViewBag.Projects = list;
+
+            }catch{ }
             return View();
         }
 
         [HttpGet]
         public IActionResult ServicesGuest()
         {
-            var allItems = reqData.GetHtml().Result;
-            var list = allItems.Where(x => x.Type == "service");
-            ViewBag.Services = list;
+            try
+            {
+                var allItems = reqData.GetHtml().Result;
+                var list = allItems.Where(x => x.Type == "service");
+                ViewBag.Services = list;
+            }
+            catch { }
             return View();
         }
 
         [HttpGet]
         public IActionResult BlogGuest()
         {
-            var allItems = reqData.GetHtml().Result;
-            var list = allItems.Where(x => x.Type == "blog");
-            ViewBag.Blogs = list;
+            try
+            {
+                var allItems = reqData.GetHtml().Result;
+                var list = allItems.Where(x => x.Type == "blog");
+                ViewBag.Blogs = list;
+            }
+            catch { }
             return View();
         }
 
         [HttpGet]
         public IActionResult ContactsGuest()
         {
-            var allItems = reqData.GetHtml().Result;
-            var list = allItems.Where(x => x.Type == "contact");
-            ViewBag.Contacts = list;
+            try
+            {
+                var allItems = reqData.GetHtml().Result;
+                var list = allItems.Where(x => x.Type == "contact");
+                ViewBag.Contacts = list;
+            }
+            catch { }
             return View();
         }
 

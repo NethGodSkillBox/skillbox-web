@@ -14,11 +14,16 @@
     <div class="row">
         <div class="col text-center">
             <ul class="list-unstyled mb-0">
-                @foreach (HtmlTemplate item in ViewBag.Contacts)
-                {
-                    <li>
-                        <p>@item.Text</p>
-                    </li>
+                @{
+                    if (ViewBag.Contacts != null)
+                    {
+                        foreach (HtmlTemplate item in ViewBag.Contacts)
+                        {
+                            <li>
+                                <p>@item.Text</p>
+                            </li>
+                        }
+                    }
                 }
             </ul>
         </div>
